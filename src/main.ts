@@ -12,7 +12,12 @@ async function bootstrap() {
     }),
   );
 
+  const domainWhitelist: string[] = [];
+
   if (process.env.NODE_ENV === NodeEnvs.development) {
+    domainWhitelist.push(undefined);
+    domainWhitelist.push('http://localhost/');
+
     const config = new DocumentBuilder()
       .setTitle('Cars project')
       .setDescription('The cars API')
@@ -29,6 +34,20 @@ async function bootstrap() {
     );
   }
 
+  const corsOptions = {
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    origin: function (origin: string, callback: Function) {
+      if (domainWhitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  };
+
+  app.enableCors(corsOptions);
+
   await app.listen(process.env.PORT || 3000);
 }
+
 bootstrap();
