@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UserRoles } from 'src/auth/constants/user-roles';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'Users' })
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
   @ApiProperty()
@@ -18,7 +18,11 @@ export class User {
 
   @Column()
   @ApiProperty()
-  birthday: string;
+  patronymic: string;
+
+  @Column({ name: 'city_id' })
+  @ApiProperty()
+  cityId: string;
 
   @Column()
   @ApiProperty()
@@ -27,6 +31,10 @@ export class User {
   @Column()
   @ApiProperty()
   email: string;
+
+  @Column()
+  @ApiProperty()
+  phone: string;
 
   @Column()
   @ApiProperty({ enum: UserRoles })
