@@ -17,11 +17,19 @@ export class PublicUser {
 
   @ApiProperty()
   @IsString()
-  birthday: string;
+  patronymic: string;
+
+  @ApiProperty()
+  @IsString()
+  cityId: string;
 
   @ApiProperty()
   @IsEmail()
   email: string;
+
+  @ApiProperty()
+  @IsEmail()
+  phone: string;
 
   @ApiProperty({ enum: UserRoles })
   @IsNumber()

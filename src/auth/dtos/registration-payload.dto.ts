@@ -12,7 +12,11 @@ export class RegistrationPayload {
 
   @IsString()
   @ApiProperty()
-  birthday: string;
+  patronymic: string;
+
+  @IsString()
+  @ApiProperty()
+  cityId: string;
 
   @IsString()
   @ApiProperty()
@@ -21,4 +25,8 @@ export class RegistrationPayload {
   @IsEmail()
   @ApiProperty()
   email: string;
+
+  @IsEmail()
+  @ApiProperty()
+  phone: string;
 }
