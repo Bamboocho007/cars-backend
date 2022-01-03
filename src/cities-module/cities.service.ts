@@ -47,7 +47,8 @@ export class CitiesService {
   }
 
   private async populateTable() {
-    if (await this.findOne(1)) return;
+    const cityList = await this.findAll();
+    if (cityList?.[0]) return;
     const citiesFile = fs.readFileSync('src/public/jsons/cities.json', 'utf8');
     const parsedFile: City[] = JSON.parse(citiesFile);
 
