@@ -1,3 +1,4 @@
+import { CitiesModule } from './cities-module/cities.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -31,6 +32,7 @@ import { environment } from './config/configuration';
     }),
     UsersModule,
     AuthModule,
+    CitiesModule,
   ],
   controllers: [],
   providers: [AppService],
