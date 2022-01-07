@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { Request } from 'express';
 import { PublicUser } from 'src/users-module/dtos/public-user.dto';
 import { UsersService } from 'src/users-module/users.service';
 import { UserRoles } from './constants/user-roles';
@@ -24,8 +25,14 @@ export class AuthService {
     return null;
   }
 
-  async login(user: PublicUser) {
+  async login(user: PublicUser, req: Request) {
     const payload: JwtPayload = { email: user.email, sub: user.id };
+    req.cookies('token', this.jwtService.sign(payload));
+    (req.session as Record<string, any>).token = (
+      req.session as Record<string, any>
+    ).token
+      ? (req.session as Record<string, any>).token
+      : this.jwtService.sign(payload);
 
     return {
       token: this.jwtService.sign(payload),

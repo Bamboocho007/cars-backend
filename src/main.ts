@@ -1,6 +1,8 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as cookieParser from 'cookie-parser';
+import * as session from 'express-session';
 import { AppModule } from './app.module';
 import { NodeEnvs } from './constants/node-envs';
 
@@ -46,6 +48,14 @@ async function bootstrap() {
   };
 
   app.enableCors(corsOptions);
+  app.use(cookieParser());
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
 
   await app.listen(process.env.PORT || 3000);
 }

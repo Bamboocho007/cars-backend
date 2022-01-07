@@ -31,7 +31,7 @@ export class AuthController {
     type: LoginDto,
   })
   async login(@Request() req: Req): Promise<AccessTokenDto> {
-    return this.authService.login(req.user as PublicUser);
+    return this.authService.login(req.user as PublicUser, req);
   }
 
   @ApiResponse({
