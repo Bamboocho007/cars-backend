@@ -2,18 +2,17 @@ import {
   Controller,
   Post,
   UseGuards,
-  Request,
+  Req,
   Body,
   HttpStatus,
   Res,
 } from '@nestjs/common';
-import { Request as Req, Response } from 'express';
+import { Request, Response } from 'express';
 import { PublicUser } from 'src/users-module/dtos/public-user.dto';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RegistrationPayload } from './dtos/registration-payload.dto';
 import { ApiBody, ApiResponse } from '@nestjs/swagger';
-import { AccessTokenDto } from './dtos/access-token.dto';
 import { LoginDto } from './dtos/login.dto';
 
 @Controller('auth')
@@ -24,14 +23,24 @@ export class AuthController {
   @Post('login')
   @ApiResponse({
     status: 200,
-    description: 'Access token',
-    type: AccessTokenDto,
+    description: 'Access token via cookies',
+    type: typeof HttpStatus,
   })
   @ApiBody({
     type: LoginDto,
   })
-  async login(@Request() req: Req): Promise<AccessTokenDto> {
-    return this.authService.login(req.user as PublicUser, req);
+  async login(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    return this.authService.login(req.user as PublicUser, res);
+  }
+
+  @Post('logOut')
+  @ApiResponse({
+    status: 200,
+    description: 'Delete cookies token',
+    type: typeof HttpStatus,
+  })
+  async logOut(@Res() res: Response): Promise<HttpStatus> {
+    return this.authService.logOut(res);
   }
 
   @ApiResponse({

@@ -7,6 +7,7 @@ import { UsersModule } from 'src/users-module/users.module';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { JWT_EXPIRATION_TIME } from './constants/jwt-expiration-time';
 
 @Global()
 @Module({
@@ -20,7 +21,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       useFactory: (config: ConfigService) => {
         return {
           secret: config.get<string>('jwtSecret'),
-          signOptions: { expiresIn: '86400s' },
+          signOptions: { expiresIn: JWT_EXPIRATION_TIME / 1000 },
         };
       },
     }),

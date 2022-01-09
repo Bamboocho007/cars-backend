@@ -2,7 +2,6 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
-import * as session from 'express-session';
 import { AppModule } from './app.module';
 import { NodeEnvs } from './constants/node-envs';
 
@@ -18,7 +17,7 @@ async function bootstrap() {
 
   if (process.env.NODE_ENV === NodeEnvs.development) {
     domainWhitelist.push(undefined);
-    domainWhitelist.push('http://localhost/');
+    domainWhitelist.push('http://localhost:4200');
 
     const config = new DocumentBuilder()
       .setTitle('Cars project')
@@ -45,17 +44,11 @@ async function bootstrap() {
         callback(new Error('Not allowed by CORS'));
       }
     },
+    credentials: true,
   };
 
   app.enableCors(corsOptions);
   app.use(cookieParser());
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: false,
-    }),
-  );
 
   await app.listen(process.env.PORT || 3000);
 }
