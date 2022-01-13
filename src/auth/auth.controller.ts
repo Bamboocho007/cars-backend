@@ -29,7 +29,10 @@ export class AuthController {
   @ApiBody({
     type: LoginDto,
   })
-  async login(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  async login(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<HttpStatus> {
     return this.authService.login(req.user as PublicUser, res);
   }
 
@@ -39,8 +42,10 @@ export class AuthController {
     description: 'Delete cookies token',
     type: typeof HttpStatus,
   })
-  async logOut(@Res() res: Response): Promise<HttpStatus> {
-    return this.authService.logOut(res);
+  async logOut(@Res({ passthrough: true }) res: Response): Promise<HttpStatus> {
+    const response = this.authService.logOut(res);
+    res.statusCode = HttpStatus.OK;
+    return response;
   }
 
   @ApiResponse({

@@ -29,10 +29,13 @@ export class CitiesService {
     cities.forEach((c) => {
       if (c.isRegion) {
         regionsList.push(c);
+        citiesByRegion[c.subdivision]
+          ? citiesByRegion[c.subdivision].push(c)
+          : (citiesByRegion[c.subdivision] = [c]);
       } else {
         citiesByRegion[c.subdivision]
           ? citiesByRegion[c.subdivision].push(c)
-          : [c];
+          : (citiesByRegion[c.subdivision] = [c]);
       }
     });
 

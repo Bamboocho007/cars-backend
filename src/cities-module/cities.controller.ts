@@ -19,7 +19,7 @@ export class CitiesController {
     return cities.filter((c) => c.isRegion);
   }
 
-  @Get('subdivision-with-cities')
+  @Get('subdivisionsWithCities')
   @ApiResponse({
     status: 200,
     description: 'The found record',

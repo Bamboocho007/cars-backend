@@ -18,6 +18,7 @@ async function bootstrap() {
   if (process.env.NODE_ENV === NodeEnvs.development) {
     domainWhitelist.push(undefined);
     domainWhitelist.push('http://localhost:4200');
+    domainWhitelist.push('http://localhost:3000');
 
     const config = new DocumentBuilder()
       .setTitle('Cars project')
