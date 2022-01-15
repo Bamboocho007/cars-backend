@@ -26,7 +26,7 @@ export class RegistrationPayload {
   @ApiProperty()
   email: string;
 
-  @IsEmail()
+  @IsString()
   @ApiProperty()
   phone: string;
 }
